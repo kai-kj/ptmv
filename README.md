@@ -95,6 +95,8 @@
      ```
      pip install pyinstaller opencv-python simpleaudio youtube-dl
      ```
+     **Note:** If `simpleaudio` fails to install, install it's dependency `libsound2-dev` first.   
+     For example, with `apt`: `apt install libsound2-dev`
 
   2. Install:
 
