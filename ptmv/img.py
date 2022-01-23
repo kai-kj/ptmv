@@ -1,5 +1,6 @@
 import cv2
-import console
+
+from . import console
 
 def display(file, user_width, user_height):
 	image = cv2.imread(file)

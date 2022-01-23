@@ -40,6 +40,20 @@
 
 ----
 
+### Installation
+
+```shell
+pip install ptmv
+```
+
+**Note:** If `simpleaudio` fails to install, install it's dependency `libasound2-dev` / `alsa-lib` first.
+For example:
+
+- for Ubuntu: `apt install libasound2-dev`
+- for Arch Linux: `pacman -S alsa-lib`
+
+----
+
 ### Usage
 
 ```shell
@@ -75,14 +89,6 @@ ptmv FILE [OPTIONS]
 
   * `-h`, `--help ` 
     Display help
-
-----
-
-### Installation
-
-```shell
-pip install ptmv
-```
 
 ----
 

@@ -5,11 +5,11 @@ import mimetypes
 import os
 import threading
 
-import console
-import img
-import snd
-import vid
-import yt
+from . import console
+from . import img
+from . import snd
+from . import vid
+from . import yt
 
 def get_args():
 	doc = """
@@ -38,11 +38,12 @@ def main():
 	threading.Thread(target = exit_flag_watcher).start()
 
 	if args.youtube: args.FILE = yt.download(args.FILE)
-	if not os.path.isfile(args.FILE): print("[" + args.FILE + "] does not exist")
+	if not os.path.isfile(args.FILE):
+		print("[" + args.FILE + "] does not exist"); os._exit(-1)
 
 	if file_type(args.FILE) == "image": img.display(args.FILE, args.width, args.height)
 	elif file_type(args.FILE) == "video": vid.play(args.FILE, args.width, args.height, args.fps, args.start_time)
-	else: print("[" + args.FILE + "] is not a supperted file type")
+	else: print("[" + args.FILE + "] is not a supperted file type"); os._exit(-1)
 
 	set_exit_flag()
 

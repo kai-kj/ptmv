@@ -1,13 +1,9 @@
 <p align="center">
     <h1 align="center"><b>Python Terminal Media Viewer</b></h1>
     <p align="center"><b>View images and videos without leaving the console</b></p>
-    <p align="center">
-    <img src="https://img.shields.io/github/license/kal39/ptmv">
-    <img src="https://img.shields.io/github/languages/top/kal39/ptmv">
-    <img src="https://img.shields.io/github/issues/kal39/ptmv">
-    </p>
 	<h2 align="center"><a href="https://github.com/kal39/ptmv">More info on GitHub</a></h2>
 </p>
+
 
 
 

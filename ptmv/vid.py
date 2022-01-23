@@ -1,8 +1,9 @@
 import time
 import cv2
-import console
-import img
-import snd
+
+from . import console
+from . import img
+from . import snd
 
 def play(file, width, height, target_fps, start_offset):
 	video = cv2.VideoCapture(file)
