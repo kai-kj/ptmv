@@ -1,71 +1,63 @@
+import signal
+import sys
 import argparse
 import mimetypes
 import os
-import signal
+import threading
 
-from ptmv import console
-from ptmv import img
-from ptmv import snd
-from ptmv import vid
-from ptmv import yt
-
+import console
+import img
+import snd
+import vid
+import yt
 
 def get_args():
-	doc = """\nView images and videos without leaving the console.\n
-	Requires a terminal that supports truecolor and utf-8\n
-	For more info visit <https://github.com/kal39/TerminalMediaViewer>"""
+	doc = """
+		View images and videos without leaving the console.\n
+		Requires a terminal that supports truecolor and utf-8\n
+		For more info visit <https://github.com/kal39/TerminalMediaViewer>
+		"""
 
-	parser = argparse.ArgumentParser(description=doc)
+	parser = argparse.ArgumentParser(description = doc)
 	parser.add_argument("FILE")
-	parser.add_argument("-y", "--youtube", help="Play video from youtube.", action="store_true")
-	parser.add_argument("--width", help="Set output width.", type=int)
-	parser.add_argument("--height", help="Set output height.", type=int)
-	parser.add_argument("--fps", help="Set target fps; Default 15 fps.", type=int, default=15)
-	parser.add_argument("--start-time", help="Set start time (seconds)", type=float, default=0)
-	parser.add_argument("-v", "--volume", help="Set audio volume (0 ~ 1).", type=float, default=1)
-	parser.add_argument("-i", "--no-info", help="Disable progress bar for videos.", action="store_true")
+	parser.add_argument("-y", "--youtube", help = "Play video from youtube.", action = "store_true")
+	parser.add_argument("--width", help = "Set output width.", type = int)
+	parser.add_argument("--height", help = "Set output height.", type = int)
+	parser.add_argument("--fps", help = "Set target fps; Default 15 fps.", type = int, default = 15)
+	parser.add_argument("--start-time", help = "Set start time (seconds)", type = float, default = 0)
+	parser.add_argument("-m", "--mute", help = "Mute audio", action = "store_true")
+		
+	parsed_args = parser.parse_args()
+	parsed_args.FILE = os.path.expanduser(parsed_args.FILE)
+	return parsed_args
 
-	return parser.parse_args()
+def main():
+	args = get_args()
+	
+	signal.signal(signal.SIGINT, set_exit_flag)
+	threading.Thread(target = exit_flag_watcher).start()
 
+	if args.youtube: args.FILE = yt.download(args.FILE)
+	if not os.path.isfile(args.FILE): print("[" + args.FILE + "] does not exist")
+
+	if file_type(args.FILE) == "image": img.display(args.FILE, args.width, args.height)
+	elif file_type(args.FILE) == "video": vid.play(args.FILE, args.width, args.height, args.fps, args.start_time)
+	else: print("[" + args.FILE + "] is not a supperted file type")
+
+	set_exit_flag()
 
 def file_type(file):
 	mimetypes.init()
-	f_type = mimetypes.guess_type(file)[0]
-	f_type = f_type.split('/')[0]
-	return f_type
+	return mimetypes.guess_type(file)[0].split('/')[0]
 
+exit_flag = False
 
-def main():
-	signal.signal(signal.SIGINT, console.cleanup)
+def set_exit_flag(*_): global exit_flag; exit_flag = True
 
-	args = get_args()
+def exit_flag_watcher():
+	while True:
+		if exit_flag:
+			console.cleanup()
+			os._exit(0)
 
-	args.FILE = os.path.expanduser(args.FILE)
-
-	if args.youtube:
-		yt_file = yt.download(args.FILE)
-		args.FILE = yt_file
-		vid.play(args)
-
-	if not os.path.isfile(args.FILE):
-		print("[%s] does not exist" % args.FILE)
-		console.cleanup()
-
-	if file_type(args.FILE) == "image":
-		img.display(args)
-
-	elif file_type(args.FILE) == "video":
-		vid.play(args)
-
-	elif file_type(args.FILE) == "audio":
-		snd.play(args)
-
-	else:
-		print("[%s] is not an image or video file" % args.FILE)
-		console.cleanup()
-
-	console.cleanup()
-
-
-if __name__ == '__main__':
-	main()
+if __name__ == "__main__": main()

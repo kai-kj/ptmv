@@ -26,11 +26,11 @@
 
 **Viewing an image**
 
-<img src="https://github.com/kal39/TerminalMediaViewer/blob/master/assets/iGif.gif?raw=true" width="80%">
+<img src="https://github.com/kal39/ptmv/blob/master/assets/image_demo.gif?raw=true" width="80%">
 
 **Watching a video**
 
-<img src="https://github.com/kal39/TerminalMediaViewer/blob/master/assets/vGif.gif?raw=true" width="80%">
+<img src="https://github.com/kal39/ptmv/blob/master/assets/video_demo.gif?raw=true" width="80%">
 
 ----
 
@@ -46,78 +46,41 @@
 
 * **Required arguments**  
 
-* `FILE`
-  
-    File to display/play or youtube url
+    * `FILE`
+
+        File to display/play or youtube url
 
 * **Optional arguments**  
-  
-  * `-y`. `--youtube`  
+
+  * `-y`. `--youtube` 
     View youtube videos
-  
-  * `--height`  
+
+  * `--height` 
     Set height (setting both `width` and `height` will ignore original aspect ratio)
-  
-  * `--width`  
+
+  * `--width` 
     Set width (setting both `width` and `height` will ignore original aspect ratio)
-  
+
   * `--start-time`
     
     Set start position for video.
-  
-  * `-f`, `--fps`  
+
+  * `-f`, `--fps` 
     Set fps (default 15 fps)
-  
-  * `-v`, `--volume`   
-    Set audio volume (0 ~ 1)
-  
-  * `-i`, `--no-info`   
-    Disable progress bar for videos
-  
-  * `-h`, `--help `  
+
+  * `-m`, `--mute` 
+    Mute audio
+
+  * `-h`, `--help ` 
     Display help
 
 ----
 
 ### Installation
 
-* **Using pip** ([PyPI](https://pypi.org/project/ptmv/))
-  
-  ```shell
-  pip install ptmv
-  ```
-
-* **From source - binary**
-  
-  1. Install dependencies:
-     
-     ```shell
-     pip install pyinstaller opencv-python simpleaudio youtube-dl
-     ```
-     
-     **Note:** If `simpleaudio` fails to install, install it's dependency `libsound2-dev` first.   
-     For example, with `apt`: `apt install libsound2-dev`
-  
-  2. Install:
-     
-     ```shell
-     make build
-     make install
-     ```
-
-* **From the AUR**
-  
-  ```shell
-  git clone https://aur.archlinux.org/ptmv-git.git
-  cd ptmv-git
-  makepkg -si
-  ```
-  
-  or
-  
-  ```shell
-  yay ptmv-git
-  ```
+```shell
+pip install ptmv
+```
 
 ----
 
@@ -127,5 +90,5 @@ Any contributions are greatly appreciated.
 
 ----
 
-**kal39**(https://github.com/kal39) - kal390983@gmail.com  
+**kal39**(https://github.com/kal39) - kaikitagawajones@gmail.com
 Distributed under the MIT license. See `LICENSE` for more information.

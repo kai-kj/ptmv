@@ -1,67 +1,51 @@
 import os
 import sys
+import numpy
+import threading
 
+def width(): return int(os.popen('stty size', 'r').read().split()[1])
+def height(): return int(os.popen('stty size', 'r').read().split()[0]) * 2
 
-height_offset = 0
+image_height = height()
 
+def _hide_cursor(): return "\033[?25l"
+def _show_cursor(): return "\033[?25h"
+def _move_cursor(x, y): return "\033[%d;%dH" % (y, x)
+def _fg_color(r, g, b): return "\x1b[48;2;%d;%d;%dm" % (r, g, b)
+def _bg_color(r, g, b): return "\x1b[38;2;%d;%d;%dm" % (r, g, b)
+def _reset_colors(): return "\x1b[0m"
+def _clear(): return "\n" * int(height() / 2)
 
-def width():
-	rows, columns = os.popen('stty size', 'r').read().split()
-	return int(columns)
+def hide_cursor(): print(_hide_cursor(), end = "")
+def show_cursor(): print(_show_cursor(), end = "")
+def move_cursor(x, y): print(_move_cursor(x, y), end = "")
+def fg_color(r, g, b): print(_fg_color(r, g, b), end = "")
+def bg_color(r, g, b): print(_bg_color(r, g, b), end = "")
+def reset_colors(): print(_reset_colors(), end = "")
+def clear(): print(_clear(), end = "")
+def set_image_height(height): global image_height; image_height = height
 
+def cleanup():
+	reset_colors()
+	show_cursor()
+	move_cursor(0, int(image_height / 2))
+	print()
 
-def height():
-	rows, columns = os.popen('stty size', 'r').read().split()
-	return int(rows) * 2
+def draw_image(image): draw_frame(None, image)
 
+def draw_frame(prev, current):
+	instructions = ""
 
-def hide_cursor():
-	print("\033[?25l", end="")
+	nextPos = (-1, -1)
+	for i in range(0, current.shape[0] - 1, 2):
+		for j in range(0, current.shape[1] - 1):
+			if prev is None or not (pixel_equals(prev, current, i, j) and pixel_equals(prev, current, i + 1, j)):
+				instructions += _fg_color(current[i, j, 2], current[i, j, 1], current[i, j, 0])
+				instructions += _bg_color(current[i + 1, j, 2], current[i + 1, j, 1], current[i + 1, j, 0])
+				if not (i, j) == nextPos: instructions += _move_cursor(j + 1, i / 2 + 1)
+				instructions += "▄"
+				nextPos = (i, j + 1)
 
+	sys.stdout.write(instructions)
 
-def show_cursor():
-	print("\033[?25h", end="")
-
-
-def move_cursor(x, y):
-	print("\033[%d;%dH" % (y, x), end="")
-
-
-def fg_color(r, g, b):
-	print("\x1b[48;2;%d;%d;%dm" % (r, g, b), end="")
-
-
-def bg_color(r, g, b):
-	print("\x1b[38;2;%d;%d;%dm" % (r, g, b), end="")
-
-
-def reset():
-	print("\x1b[0m\033[?25h", end="")
-
-
-def setup_height(image, args):
-	img_height, img_width, _ = image.shape
-
-	if args.width is None and args.height is None:
-		zoom_x = min(width() / img_width, height() / img_height)
-		zoom_y = zoom_x
-
-	elif args.width is not None:
-		zoom_x = args.width / img_width
-		zoom_y = zoom_x
-
-	elif args.height is not None:
-		zoom_y = args.height / img_height
-
-	else:
-		zoom_y = args.height / img_height
-
-	global height_offset
-	height_offset = int(img_height * zoom_y / 2)
-
-
-def cleanup(*_):
-	reset()
-	move_cursor(0, 0)
-	print("\033[%dB" % height_offset, end="")
-	sys.exit(0)
+def pixel_equals(a, b, i, j): return a[i, j, 0] == b[i, j, 0] and a[i, j, 1] == b[i, j, 1] and a[i, j, 2] == b[i, j, 2]

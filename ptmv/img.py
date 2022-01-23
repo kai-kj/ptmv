@@ -1,59 +1,28 @@
 import cv2
-import numpy
+import console
 
-from ptmv import console
+def display(file, user_width, user_height):
+	image = cv2.imread(file)
+	if image is None: print("Could not read [%s]" % file); return
+	image = resize(image, user_width, user_height)
+	console.set_image_height(image.shape[0])
+	console.clear()
+	console.draw_image(image)
 
+def resize(image, user_width, user_height):
+	image_height, image_width, _ = image.shape
 
-def resize(image, args):
-	height, width, _ = image.shape
-
-	if args.width is None and args.height is None:
-		zoom_x = min(console.width() / width, console.height() / height)
-		zoom_y = zoom_x
-
-	elif args.width is not None:
-		zoom_x = args.width / width
-		zoom_y = zoom_x
-
-	elif args.height is not None:
-		zoom_y = args.height / height
-		zoom_x = zoom_y
-
+	if user_width is None and user_height is None:
+		scale_x = min(console.width() / image_width, console.height() / image_height)
+		scale_y = scale_x
+	elif user_width is not None:
+		scale_x = user_width / image_width
+		scale_y = scale_x
+	elif user_height is not None:
+		scale_y = user_height / image_height
+		scale_x = scale_y
 	else:
-		zoom_x = args.width / width
-		zoom_y = args.height / height
+		scale_x = user_width / image_width
+		scale_y = user_height / image_height
 
-	image = cv2.resize(image, (0, 0), interpolation=cv2.INTER_AREA, fx=zoom_x, fy=zoom_y)
-
-	return image
-
-
-def draw(prev, current):
-	height, width, _ = current.shape
-	console.hide_cursor()
-
-	for i in range(0, height - 1, 2):
-		for j in range(0, width - 1):
-			if prev is None \
-					or not numpy.array_equal(prev[i, j], current[i, j]) \
-					or not numpy.array_equal(prev[i + 1, j], current[i + 1, j]):
-				console.fg_color(current[i, j, 2], current[i, j, 1], current[i, j, 0])
-				console.bg_color(current[i + 1, j, 2], current[i + 1, j, 1], current[i + 1, j, 0])
-
-				console.move_cursor(j + 1, i / 2 + 1)
-				print("▄", end="")
-
-	console.show_cursor()
-
-
-def display(args):
-	image = cv2.imread(args.FILE)
-
-	if image is None:
-		print("Could not read [%s]" % args.FILE)
-		console.cleanup()
-
-	console.setup_height(image, args)
-
-	image = resize(image, args)
-	draw(None, image)
+	return cv2.resize(image, (0, 0), interpolation = cv2.INTER_AREA, fx = scale_x, fy = scale_y)
