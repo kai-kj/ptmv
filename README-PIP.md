@@ -1,14 +1,14 @@
 <p align="center">
-    <h1 align="center"><b>Py Terminal Media Viewer</b></h1>
+    <h1 align="center"><b>Python Terminal Media Viewer</b></h1>
     <p align="center"><b>View images and videos without leaving the console</b></p>
     <p align="center">
     <img src="https://img.shields.io/github/license/kal39/ptmv">
     <img src="https://img.shields.io/github/languages/top/kal39/ptmv">
     <img src="https://img.shields.io/github/issues/kal39/ptmv">
-    <img src="https://img.shields.io/github/v/release/kal39/ptmv?sort=semver">
     </p>
-	<p align="center"><b><a href="https://github.com/kal39/ptmv">More info on GitHub</a></b></p>
+	<h2 align="center"><a href="https://github.com/kal39/ptmv">More info on GitHub</a></h2>
 </p>
+
 
 
 ----
@@ -24,18 +24,6 @@
 
 ----
 
-### Examples
-
-**Viewing an image**
-
-<img src="https://github.com/kal39/ptmv/blob/master/assets/image_demo.gif?raw=true" width="80%">
-
-**Watching a video**
-
-<img src="https://github.com/kal39/ptmv/blob/master/assets/video_demo.gif?raw=true" width="80%">
-
-----
-
 ### Requirements
 
 * A terminal that supports **truecolor** ([list](https://gist.github.com/XVilka/8346728)) and **utf-8** (most terminals should support utf-8).
@@ -44,7 +32,9 @@
 
 ### Usage
 
-**ptmv `FILE` `[OPTIONS]`**
+```shell
+ptmv FILE [OPTIONS]
+```
 
 * **Required arguments**  
 
@@ -75,22 +65,3 @@
 
   * `-h`, `--help ` 
     Display help
-
-----
-
-### Installation
-
-```shell
-pip install ptmv
-```
-
-----
-
-### Contributing
-
-Any contributions are greatly appreciated.
-
-----
-
-**kal39**(https://github.com/kal39) - kaikitagawajones@gmail.com
-Distributed under the MIT license. See `LICENSE` for more information.

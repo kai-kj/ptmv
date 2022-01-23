@@ -1,13 +1,13 @@
 <p align="center">
-    <h1 align="center"><b>Py Terminal Media Viewer</b></h1>
+    <h1 align="center"><b>Python Terminal Media Viewer</b></h1>
     <p align="center"><b>View images and videos without leaving the console</b></p>
     <p align="center">
     <img src="https://img.shields.io/github/license/kal39/ptmv">
     <img src="https://img.shields.io/github/languages/top/kal39/ptmv">
     <img src="https://img.shields.io/github/issues/kal39/ptmv">
-    <img src="https://img.shields.io/github/v/release/kal39/ptmv?sort=semver">
     </p>
 </p>
+
 
 ----
 
@@ -42,7 +42,9 @@
 
 ### Usage
 
-**ptmv `FILE` `[OPTIONS]`**
+```shell
+ptmv FILE [OPTIONS]
+```
 
 * **Required arguments**  
 
