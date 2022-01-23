@@ -37,6 +37,12 @@
 ### Requirements
 
 * A terminal that supports **truecolor** ([list](https://gist.github.com/XVilka/8346728)) and **utf-8** (most terminals should support utf-8).
+* `libasound2-dev` / `alsa-lib`
+  * for Ubuntu: `apt install libasound2-dev`
+  * for Arch Linux: `pacman -S alsa-lib`
+* `ffmpeg`
+  * for Ubuntu: `apt install ffmpeg`
+  * for Arch Linux: `pacman -S ffmpeg`
 
 ----
 
@@ -45,12 +51,6 @@
 ```shell
 pip install ptmv
 ```
-
-**Note:** If `simpleaudio` fails to install, install it's dependency `libasound2-dev` / `alsa-lib` first.
-For example:
-
-- for Ubuntu: `apt install libasound2-dev`
-- for Arch Linux: `pacman -S alsa-lib`
 
 ----
 
