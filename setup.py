@@ -6,7 +6,7 @@ README = (HERE / "README-PIP.md").read_text()
 
 setup(
     name="ptmv",
-    version="1.0.0",
+    version="1.0.1",
     description="An utf-8/truecolor image and video viewer for the terminal",
     long_description=README,
     long_description_content_type="text/markdown",
