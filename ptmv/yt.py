@@ -10,7 +10,7 @@ def download(url):
 	ydl_opts = {
 		"format": "worst[ext=mp4]",
 		"outtmpl": file + ".%(ext)s",
-		# "quiet": True,
+		"quiet": True,
 		"no_warnings": True,
 	}
 	
