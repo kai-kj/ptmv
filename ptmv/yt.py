@@ -1,11 +1,13 @@
 from __future__ import unicode_literals
 import yt_dlp as ytdl
 import os
+import tempfile
 import time
 
 def download(url):
-	if not os.path.exists("/tmp/ptmv"): os.makedirs("/tmp/ptmv")
-	file = "/tmp/ptmv/" + str(int(time.time()))
+	ptmv_tempdir = os.path.join(tempfile.gettempdir(), "ptmv")
+	if not os.path.exists(ptmv_tempdir): os.makedirs(ptmv_tempdir)
+	file = ptmv_tempdir + str(int(time.time()))
 	
 	ydl_opts = {
 		"format": "worst[ext=mp4]",
