@@ -34,18 +34,19 @@ def cleanup():
 def draw_image(image): draw_frame(None, image)
 
 def draw_frame(prev, current):
-	instructions = ""
+	instructions = []
+	add = instructions.append
 
 	nextPos = (-1, -1)
 	for i in range(0, current.shape[0] - 1, 2):
 		for j in range(0, current.shape[1] - 1):
 			if prev is None or not (pixel_equals(prev, current, i, j) and pixel_equals(prev, current, i + 1, j)):
-				instructions += _fg_color(current[i, j, 2], current[i, j, 1], current[i, j, 0])
-				instructions += _bg_color(current[i + 1, j, 2], current[i + 1, j, 1], current[i + 1, j, 0])
-				if not (i, j) == nextPos: instructions += _move_cursor(j + 1, i / 2 + 1)
-				instructions += "▄"
+				add(_fg_color(current[i, j, 2], current[i, j, 1], current[i, j, 0]))
+				add(_bg_color(current[i + 1, j, 2], current[i + 1, j, 1], current[i + 1, j, 0]))
+				if not (i, j) == nextPos: add(_move_cursor(j + 1, i / 2 + 1))
+				add("▄")
 				nextPos = (i, j + 1)
 
-	sys.stdout.write(instructions)
+	sys.stdout.write("".join(instructions))
 
 def pixel_equals(a, b, i, j): return a[i, j, 0] == b[i, j, 0] and a[i, j, 1] == b[i, j, 1] and a[i, j, 2] == b[i, j, 2]
